@@ -31,6 +31,13 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
+
+  // Load Textures
+  title_screen =  TextureLoader::LoadTexture(../images/Title.png, sdl_renderer);
+  game_over_screen = TextureLoader::LoadTexture(../images/GameOver.png, sdl_renderer);
+
+  //Set initialRun condition to trigger titlescreen on first render
+  initialRun = true;
 }
 
 Renderer::~Renderer() {
@@ -42,6 +49,14 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
+
+ // Display titlescreen on initialrun of the game
+  if(initialRun){
+   SDL_RenderCopy(sdl_renderer, title_screen, NULL, NULL);
+   SDL_RenderPresent(sdl_renderer)
+   initialRun=false;
+   SDL_Delay(5000) //Remove this 5s delay when userinput is handled to leave titlescreen
+  }
 
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);

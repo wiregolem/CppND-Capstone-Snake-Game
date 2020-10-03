@@ -22,6 +22,9 @@ class Renderer {
  /*Informational screen texture pointers*/
   SDL_Texture *title_screen;
   SDL_Texture *game_over_screen;
+ 
+ /*Initial run indicator used to render titlescreen*/
+  bool initialRun;
 
   const std::size_t screen_width;
   const std::size_t screen_height;
