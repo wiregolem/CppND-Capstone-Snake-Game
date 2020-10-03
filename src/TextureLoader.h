@@ -1,5 +1,5 @@
 #include "SDL.h"
-#include "SDL_Image.h"
+
 
 class TextureLoader
 {
