@@ -32,18 +32,30 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
+  // Initialize SDL_image for PNG loading
+  int imgFlags = IMG_INIT_PNG;
+  if( !( IMG_Init( imgFlags ) & imgFlags) ) {
+   std::cerr << "SDL_image could not initialize! \n";
+   std::cerr << "SDL_image Error: " << IMG_GetError()  << "\n";
+  } 
+
   // Load Textures
   title_screen =  TextureLoader::LoadTexture("../images/Title.png", sdl_renderer);
   game_over_screen = TextureLoader::LoadTexture("../images/GameOver.png", sdl_renderer);
 
   //Set initialRun condition to trigger titlescreen on first render
   initialRun = true;
+
 }
 
+// Free resources 
 Renderer::~Renderer() {
   SDL_DestroyWindow(sdl_window);
-  SDL_Quit();
+  IMG_Quit(); 
+  SDL_Quit(); 
 }
+
+
 
 void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_Rect block;
