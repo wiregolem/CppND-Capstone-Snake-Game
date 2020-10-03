@@ -9,7 +9,7 @@ SDL_Texture* TextureLoader::LoadTexture(const char* filename, SDL_Renderer* rend
  SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, temporary);
 
  /*Free unnecessary surface resource*/
- SDL_FreeSurface(tempSurface)
+ SDL_FreeSurface(temporary);
 
  /*return texture pointer for use*/
  return texture;
