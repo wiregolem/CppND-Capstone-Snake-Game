@@ -15,4 +15,4 @@ include_directories(${SDL2_INCLUDE_DIRS} src ${SDL2IMAGE_INCLUDE_DIRS})
 
 add_executable(SnakeGame src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/snake.cpp src/TextureLoader.cpp)
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
-target_link_libraries(SnakeGame ${SDL2_LIBRARIES} ${SLD2IMAGE_LIBRARIES})
+target_link_libraries(SnakeGame ${SDL2_LIBRARIES} ${SLD2IMAGE_LIBRARIES} -lSDL2_image)

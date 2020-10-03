@@ -1,4 +1,5 @@
-#include <TextureLoader.h>
+#include "TextureLoader.h"
+#include "SDL_image.h"
 
 SDL_Texture* TextureLoader::LoadTexture(const char* filename, SDL_Renderer* renderer)
 {
