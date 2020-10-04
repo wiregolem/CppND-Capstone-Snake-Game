@@ -21,14 +21,14 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   bool running = true;
   bool titlescreen = true;
   bool gameoverscreen = false;
-
+  bool pausescreen = false;
  renderer.Render(snake, food);
 
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running,titlescreen,gameoverscreen,snake);
+    controller.HandleInput(running,titlescreen,gameoverscreen,pausescreen,snake);
 
     if(titlescreen) {
       // Load title screen texture
@@ -36,7 +36,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       renderer.Render(title_screen);
     }
     while(titlescreen) {
-      controller.HandleInput(running,titlescreen,gameoverscreen,snake);
+      controller.HandleInput(running,titlescreen,gameoverscreen,pausescreen,snake);
     }
 
     //Check for game over before updating
@@ -53,7 +53,15 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       // SDL_Quit();
     }
     while(gameoverscreen){
-      controller.HandleInput(running,titlescreen,gameoverscreen,snake);
+      controller.HandleInput(running,titlescreen,gameoverscreen,pausescreen,snake);
+    }
+
+    if(pausescreen) {
+      SDL_Texture* pause_screen = TextureLoader::LoadTexture("../images/Paused.png", renderer.getrenderer());
+      renderer.Render(pause_screen);
+    }
+    while(pausescreen) {
+      controller.HandleInput(running,titlescreen,gameoverscreen,pausescreen,snake);
     }
 
     Update();

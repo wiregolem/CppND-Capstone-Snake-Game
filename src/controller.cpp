@@ -9,7 +9,7 @@ void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
   return;
 }
 
-void Controller::HandleInput(bool &running, bool &titlescreen, bool &gameoverscreen,  Snake &snake) const {
+void Controller::HandleInput(bool &running, bool &titlescreen, bool &gameoverscreen, bool &pausescreen,  Snake &snake) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {
@@ -39,8 +39,11 @@ void Controller::HandleInput(bool &running, bool &titlescreen, bool &gameoverscr
 	  running = false;
           titlescreen = false;
           gameoverscreen = false;
+          pausescreen = false;
 	  break;
        case SDLK_SPACE:
+          if(!titlescreen && !gameoverscreen && !pausescreen){
+            pausescreen=true;} else if(pausescreen) {pausescreen=false;}
           titlescreen = false;
           break;
       }
