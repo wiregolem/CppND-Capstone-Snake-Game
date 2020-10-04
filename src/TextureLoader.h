@@ -10,4 +10,4 @@ class TextureLoader
 	static SDL_Texture* LoadTexture(const char* filename, SDL_Renderer * renderer);
 };
 
-#ENDIF
+#endif

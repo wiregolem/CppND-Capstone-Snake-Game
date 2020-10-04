@@ -23,7 +23,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
   while(firstrun) {
     // Load title screen texture
-    SDL_Texture* title_screen =  TextureLoader::LoadTexture("../images/Title.png", sdl_renderer);
+    SDL_Texture* title_screen =  TextureLoader::LoadTexture("../images/Title.png", renderer.getrenderer());
     // Render title screen
     renderer.Render(title_screen);
     // End loop

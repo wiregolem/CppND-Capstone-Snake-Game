@@ -1,7 +1,7 @@
 #include "TextureLoader.h"
 #include "SDL_image.h"
 
-SDL_Texture* TextureLoader::LoadTexture(const char* filename, SDL_Renderer* renderer)
+SDL_Texture* TextureLoader::LoadTexture(const char* filename, SDL_Renderer * renderer)
 {
  /*Load image from file as an SDL Surface*/
  SDL_Surface* temporary = IMG_Load(filename);
