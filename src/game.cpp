@@ -18,6 +18,16 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
+  bool firstrun = true;
+
+  while(firstrun) {
+    // Load title screen texture
+    title_screen =  TextureLoader::LoadTexture("../images/Title.png", sdl_renderer);
+    // Render title screen
+    renderer.Render(title_screen);
+    // End loop
+    firstrun = false;
+ }
 
   while (running) {
     frame_start = SDL_GetTicks();
