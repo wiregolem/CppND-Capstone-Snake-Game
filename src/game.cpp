@@ -22,6 +22,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   bool titlescreen = true;
   bool gameoverscreen = false;
 
+ renderer.Render(snake, food);
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -44,6 +45,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       SDL_Delay(1000);
       // Load Game Over screen texture
       SDL_Texture* game_over_screen =  TextureLoader::LoadTexture("../images/GameOver.png", renderer.getrenderer());
+      SDL_SetTextureBlendMode(game_over_screen, SDL_BLENDMODE_BLEND);
       // Render Game Over screen
       renderer.Render(game_over_screen);
       gameoverscreen = true;
