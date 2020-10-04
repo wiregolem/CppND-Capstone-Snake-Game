@@ -19,22 +19,25 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
-  bool firstrun = true;
+  bool titlescreen = true;
+  bool gameoverscreen = false;
 
-  while(firstrun) {
-    // Load title screen texture
-    SDL_Texture* title_screen =  TextureLoader::LoadTexture("../images/Title.png", renderer.getrenderer());
-    // Render title screen
-    renderer.Render(title_screen);
-    // End loop
-    firstrun = false;
- }
 
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake);
+    controller.HandleInput(running,titlescreen,gameoverscreen,snake);
+
+    if(titlescreen) {
+      // Load title screen texture
+      SDL_Texture* title_screen =  TextureLoader::LoadTexture("../images/Title.png", renderer.getrenderer());
+      renderer.Render(title_screen);
+    }
+    while(titlescreen) {
+      controller.HandleInput(running,titlescreen,gameoverscreen,snake);
+    }
+
     //Check for game over before updating
     if (!snake.alive){
       // Delay by 1 second to let the player realize they've died.
@@ -43,8 +46,12 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       SDL_Texture* game_over_screen =  TextureLoader::LoadTexture("../images/GameOver.png", renderer.getrenderer());
       // Render Game Over screen
       renderer.Render(game_over_screen);
+      gameoverscreen = true;
       //  Exit game
-      SDL_Quit();
+      // SDL_Quit();
+    }
+    while(gameoverscreen){
+      controller.HandleInput(running,titlescreen,gameoverscreen,snake);
     }
 
     Update();

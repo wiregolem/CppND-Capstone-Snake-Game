@@ -47,12 +47,19 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
+
+
 // Render texture, used to render title screen and game over screen
 void Renderer::Render(SDL_Texture* texture) {
-   SDL_RenderCopy(sdl_renderer, texture, NULL, NULL);
-   SDL_RenderPresent(sdl_renderer);
-   initialRun=false;
-   SDL_Delay(5000); //Remove this 5s delay when userinput is handled to leave titlescreen
+  SDL_RenderPresent(sdl_renderer);
+//SDL_SetRenderDrawColor(sdl_renderer,0x1E, 0x1E, 0x1E, 0xFF);
+  SDL_RenderClear(sdl_renderer);
+//SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
+  if (SDL_RenderCopy(sdl_renderer, texture, NULL, NULL) < 0){
+     std::cerr << "Failed to copy texture to rendering target\n";
+     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
+  }
+  SDL_RenderPresent(sdl_renderer);
 }
 
 SDL_Renderer* Renderer:: getrenderer(){
