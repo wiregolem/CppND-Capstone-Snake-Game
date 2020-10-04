@@ -35,6 +35,18 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
+    //Check for game over before updating
+    if (!snake.alive){
+      // Delay by 1 second to let the player realize they've died.
+      SDL_Delay(1000);
+      // Load Game Over screen texture
+      SDL_Texture* game_over_screen =  TextureLoader::LoadTexture("../images/GameOver.png", renderer.getrenderer());
+      // Render Game Over screen
+      renderer.Render(game_over_screen);
+      //  Exit game
+      SDL_Quit();
+    }
+
     Update();
     renderer.Render(snake, food);
 
@@ -57,6 +69,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // achieve the correct frame rate.
     if (frame_duration < target_frame_duration) {
       SDL_Delay(target_frame_duration - frame_duration);
+
     }
   }
 }
@@ -78,7 +91,6 @@ void Game::PlaceFood() {
 }
 
 void Game::Update() {
-  if (!snake.alive) return;
 
   snake.Update();
 

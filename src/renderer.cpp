@@ -37,32 +37,22 @@ Renderer::Renderer(const std::size_t screen_width,
   if( !( IMG_Init( imgFlags ) & imgFlags) ) {
    std::cerr << "SDL_image could not initialize! \n";
    std::cerr << "SDL_image Error: " << IMG_GetError()  << "\n";
-  } 
-
-  // Load Textures
-  game_over_screen = TextureLoader::LoadTexture("../images/GameOver.png", sdl_renderer);
-
-  //Set initialRun condition to trigger titlescreen on first render
-  initialRun = true;
-
+  }
 }
 
-// Free resources 
+// Free resources
 Renderer::~Renderer() {
   SDL_DestroyWindow(sdl_window);
-  IMG_Quit(); 
-  SDL_Quit(); 
+  IMG_Quit();
+  SDL_Quit();
 }
 
-// Render texture, used to render title screen
+// Render texture, used to render title screen and game over screen
 void Renderer::Render(SDL_Texture* texture) {
-  if(initialRun){
    SDL_RenderCopy(sdl_renderer, texture, NULL, NULL);
    SDL_RenderPresent(sdl_renderer);
    initialRun=false;
    SDL_Delay(5000); //Remove this 5s delay when userinput is handled to leave titlescreen
-  }
-
 }
 
 SDL_Renderer* Renderer:: getrenderer(){
