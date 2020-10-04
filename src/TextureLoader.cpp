@@ -15,3 +15,4 @@ SDL_Texture* TextureLoader::LoadTexture(const char* filename, SDL_Renderer* rend
  /*return texture pointer for use*/
  return texture;
 }
+
