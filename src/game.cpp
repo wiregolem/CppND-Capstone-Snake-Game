@@ -1,6 +1,7 @@
 #include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include "TextureLoader.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
@@ -22,7 +23,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
   while(firstrun) {
     // Load title screen texture
-    title_screen =  TextureLoader::LoadTexture("../images/Title.png", sdl_renderer);
+    SDL_Texture* title_screen =  TextureLoader::LoadTexture("../images/Title.png", sdl_renderer);
     // Render title screen
     renderer.Render(title_screen);
     // End loop
