@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include "game.h"
 #include <iostream>
 #include <string>
 
@@ -58,7 +59,7 @@ void Renderer::Render(Gamestate &gamestate) {
       if (gamestate.paused) {filename = pause_screen_png;} else
           if (gamestate.gameover){filename = game_over_png;}
   // Load texture from filename
-  SDL_Texture* texture =  TextureLoader::LoadTexture(filename, renderer.getrenderer());  
+  SDL_Texture* texture =  TextureLoader::LoadTexture(filename, getrenderer());  
   
   //Send texture to the renderer and check for success
   if (SDL_RenderCopy(sdl_renderer, texture, NULL, NULL) < 0){

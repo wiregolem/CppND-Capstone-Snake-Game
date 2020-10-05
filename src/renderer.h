@@ -2,9 +2,11 @@
 #define RENDERER_H
 
 #include <vector>
+#include "game.h"
 #include "SDL.h"
 #include "snake.h"
 #include "TextureLoader.h"
+class Gamestate;
 
 class Renderer {
  public:

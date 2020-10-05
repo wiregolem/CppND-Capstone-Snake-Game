@@ -3,15 +3,17 @@
 #include "SDL.h"
 #include "TextureLoader.h"
 
-void Gamestate::Check(Game game&,Renderer &renderer){
+class Game;
+
+void Gamestate::Check(Game &game,Renderer &renderer,Snake &snake, Controller const &controller){
     if(!snake.alive){gameover = true;} 
     
     //Check for infoscreen
-    if(title || paused || gameover) {renderer.Render(this)}
+    if(title || paused || gameover) {renderer.Render(*(this));}
 
     // Wait for user input before continuing
     while(title || paused || gameover) {
-      controller.HandleInput(this,snake);
+      controller.HandleInput(*(this),snake);
       
     //Check for reset
     if(reset) { game.Reset();}
@@ -54,7 +56,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input
     controller.HandleInput(gamestate,snake);
     //Check gamestate for infoscreen or reset
-    gamestate.Check(this,renderer)
+    gamestate.Check(*(this), renderer, snake, controller);
     //Update
     Update();
     //Render

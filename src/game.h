@@ -6,6 +6,11 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+
+class Game;
+class Controller;
+class Renderer;
+
 class Gamestate {
 public:
   bool running = false;
@@ -13,9 +18,9 @@ public:
   bool gameover = false;
   bool paused = false;
   bool reset = false;
-  void Check(Game &game, Renderer &renderer);
+  void Check(Game &game, Renderer &renderer, Snake &snake, Controller const &controller);
 };
-class Controller;
+
 
 class Game {
  public:
@@ -25,6 +30,7 @@ class Game {
   int GetScore() const;
   int GetSize() const;
   Gamestate gamestate;
+  void Reset();
  private:
   Snake snake;
   SDL_Point food;
@@ -38,7 +44,7 @@ class Game {
 
   void PlaceFood();
   void Update();
-  void Reset();
+  
 };
 
 #endif
