@@ -13,6 +13,7 @@ public:
   bool gameover = false;
   bool paused = false;
   bool reset = false;
+  void Check(Game &game, Renderer &renderer);
 };
 class Controller;
 

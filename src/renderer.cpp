@@ -49,16 +49,23 @@ Renderer::~Renderer() {
 
 
 
-// Render texture, used to render title screen and game over screen
-void Renderer::Render(SDL_Texture* texture) {
-//  SDL_RenderPresent(sdl_renderer);
-//SDL_SetRenderDrawColor(sdl_renderer,0x1E, 0x1E, 0x1E, 0xFF);
-//  SDL_RenderClear(sdl_renderer);
-//SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
+// Overload of Render function, Renders infoscreen texture for appropriate gamestate
+void Renderer::Render(Gamestate &gamestate) {
+  const char* filename;
+  
+  //Load filename for appropriate gamestate
+  if (gamestate.title) {filename = title_screen_png;} else
+      if (gamestate.paused) {filename = pause_screen_png;} else
+          if (gamestate.gameover){filename = game_over_png;}
+  // Load texture from filename
+  SDL_Texture* texture =  TextureLoader::LoadTexture(filename, renderer.getrenderer());  
+  
+  //Send texture to the renderer and check for success
   if (SDL_RenderCopy(sdl_renderer, texture, NULL, NULL) < 0){
      std::cerr << "Failed to copy texture to rendering target\n";
      std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
+  //Display contents of the renderer to the screen
   SDL_RenderPresent(sdl_renderer);
 }
 
