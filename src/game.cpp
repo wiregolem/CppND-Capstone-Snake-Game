@@ -18,53 +18,65 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  bool running = true;
-  bool titlescreen = true;
-  bool gameoverscreen = false;
-  bool pausescreen = false;
- renderer.Render(snake, food);
 
-  while (running) {
-    frame_start = SDL_GetTicks();
+  // Initialize game state 
+  gamestate.running = true;
+  gamestate.title = true;
+  gamestate.gameover = false;
+  gamestate.paused = false;
 
-    // Input, Update, Render - the main game loop.
-    controller.HandleInput(running,titlescreen,gameoverscreen,pausescreen,snake);
+  renderer.Render(snake, food);
 
-    if(titlescreen) {
-      // Load title screen texture
+  while (gamestate.running) {
+   //Init stopwatch
+   frame_start = SDL_GetTicks();
+
+   // Input, Update, Render - the main game loop.
+
+   // Input
+   controller.HandleInput(gamestate,snake);
+
+   //Check for title, load title_screen, and handle titlescreen input 
+   if(gamestate.title) {
+      //Load title_screen texture
       SDL_Texture* title_screen =  TextureLoader::LoadTexture("../images/Title.png", renderer.getrenderer());
+      //Render title_screen
       renderer.Render(title_screen);
     }
-    while(titlescreen) {
-      controller.HandleInput(running,titlescreen,gameoverscreen,pausescreen,snake);
+    while(gamestate.title) {
+      controller.HandleInput(gamestate,snake);
     }
 
-    //Check for game over before updating
+    //Check if snake is dead to toggle gameover, load game_over_screen, and handle game_over_screen input
     if (!snake.alive){
       // Delay by 1 second to let the player realize they've died.
-      SDL_Delay(1000);
-      // Load Game Over screen texture
+      SDL_Delay(1000); //Purely for dramatic effect
+      // Load game_over_screen texture
       SDL_Texture* game_over_screen =  TextureLoader::LoadTexture("../images/GameOver.png", renderer.getrenderer());
       SDL_SetTextureBlendMode(game_over_screen, SDL_BLENDMODE_BLEND);
-      // Render Game Over screen
+      // Render game_over screen
       renderer.Render(game_over_screen);
-      gameoverscreen = true;
-      //  Exit game
-      // SDL_Quit();
+
+      gamestate.gameover = true;
     }
-    while(gameoverscreen){
-      controller.HandleInput(running,titlescreen,gameoverscreen,pausescreen,snake);
+    while(gamestate.gameover){
+      controller.HandleInput(gamestate,snake);
     }
 
-    if(pausescreen) {
+    //Check for paused, load pause_screen, and handle pause_screen input
+    if(gamestate.paused) {
+      // Load pause_screen texture
       SDL_Texture* pause_screen = TextureLoader::LoadTexture("../images/Paused.png", renderer.getrenderer());
+      // Render pause_screen
       renderer.Render(pause_screen);
     }
-    while(pausescreen) {
-      controller.HandleInput(running,titlescreen,gameoverscreen,pausescreen,snake);
+     while(gamestate.paused) {
+      controller.HandleInput(gamestate,snake);
     }
 
+    //Update
     Update();
+    //Render
     renderer.Render(snake, food);
 
     frame_end = SDL_GetTicks();

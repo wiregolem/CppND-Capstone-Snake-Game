@@ -2,13 +2,15 @@
 #define CONTROLLER_H
 
 #include "snake.h"
+#include "game.h"
+class Gamestate;
 
 class Controller {
  public:
-  void HandleInput(bool &running, bool &titlescreen, bool &gameoverscreen, bool &pausescreen, Snake &snake) const;
+  void HandleInput(Gamestate &gamestate, Snake &snake) const;
 
  private:
-  void ChangeDirection(Snake &snake, Snake::Direction input,
+  void ChangeDirection(Gamestate &gamestate,Snake &snake, Snake::Direction input,
                        Snake::Direction opposite) const;
 };
 

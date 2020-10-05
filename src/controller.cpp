@@ -3,48 +3,52 @@
 #include "SDL.h"
 #include "snake.h"
 
-void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
+void Controller::ChangeDirection(Gamestate &gamestate,Snake &snake, Snake::Direction input,
                                  Snake::Direction opposite) const {
-  if (snake.direction != opposite || snake.size == 1) snake.direction = input;
+  if ((snake.direction != opposite || snake.size == 1)&& !gamestate.paused) snake.direction = input;
   return;
 }
 
-void Controller::HandleInput(bool &running, bool &titlescreen, bool &gameoverscreen, bool &pausescreen,  Snake &snake) const {
+void Controller::HandleInput(Gamestate &gamestate,  Snake &snake) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {
-      running = false;
+      //End game
+      gamestate.running = false;
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
         case SDLK_UP:
-          ChangeDirection(snake, Snake::Direction::kUp,
+          ChangeDirection(gamestate,snake, Snake::Direction::kUp,
                           Snake::Direction::kDown);
           break;
 
         case SDLK_DOWN:
-          ChangeDirection(snake, Snake::Direction::kDown,
+          ChangeDirection(gamestate,snake, Snake::Direction::kDown,
                           Snake::Direction::kUp);
           break;
 
         case SDLK_LEFT:
-          ChangeDirection(snake, Snake::Direction::kLeft,
+          ChangeDirection(gamestate,snake, Snake::Direction::kLeft,
                           Snake::Direction::kRight);
           break;
 
         case SDLK_RIGHT:
-          ChangeDirection(snake, Snake::Direction::kRight,
+          ChangeDirection(gamestate,snake, Snake::Direction::kRight,
                           Snake::Direction::kLeft);
           break;
        case SDLK_ESCAPE:
-	  running = false;
-          titlescreen = false;
-          gameoverscreen = false;
-          pausescreen = false;
+         //End game
+	 gamestate.running = false;
+         gamestate.title = false;
+         gamestate.gameover = false;
+          gamestate.paused = false;
 	  break;
        case SDLK_SPACE:
-          if(!titlescreen && !gameoverscreen && !pausescreen){
-            pausescreen=true;} else if(pausescreen) {pausescreen=false;}
-          titlescreen = false;
+	  // If not on an info screen, pause the game, else resume
+          if(!gamestate.title && !gamestate.gameover && !gamestate.paused){
+            gamestate.paused=true;} else if(gamestate.paused) {gamestate.paused=false;}
+          //Toggle game start
+          gamestate.title = false;
           break;
       }
     }

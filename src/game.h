@@ -6,6 +6,14 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+class Gamestate {
+public:
+  bool running = false;
+  bool title = false;
+  bool gameover = false;
+  bool paused = false;
+};
+class Controller;
 
 class Game {
  public:
@@ -14,7 +22,7 @@ class Game {
            std::size_t target_frame_duration);
   int GetScore() const;
   int GetSize() const;
-
+  Gamestate gamestate;
  private:
   Snake snake;
   SDL_Point food;
