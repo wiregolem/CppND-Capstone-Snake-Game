@@ -41,14 +41,26 @@ void Controller::HandleInput(Gamestate &gamestate,  Snake &snake) const {
 	 gamestate.running = false;
          gamestate.title = false;
          gamestate.gameover = false;
-          gamestate.paused = false;
+         gamestate.paused = false;
+         gamestate.reset = false;
 	  break;
        case SDLK_SPACE:
 	  // If not on an info screen, pause the game, else resume
           if(!gamestate.title && !gamestate.gameover && !gamestate.paused){
-            gamestate.paused=true;} else if(gamestate.paused) {gamestate.paused=false;}
-          //Toggle game start
-          gamestate.title = false;
+            gamestate.paused=true;
+          }
+            else if(gamestate.paused){
+              gamestate.paused=false;
+            }
+          //Reset Game from game over screen
+          if(gamestate.gameover) {
+            gamestate.gameover = false;
+            gamestate.reset = true;
+          }
+          //Leave title screen and begin gameplay
+          if(gamestate.title){
+            gamestate.title = false;
+          }
           break;
       }
     }

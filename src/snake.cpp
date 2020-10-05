@@ -77,3 +77,14 @@ bool Snake::SnakeCell(int x, int y) {
   }
   return false;
 }
+
+// Reset all snake attributes to initial state
+void Snake::Respawn(){
+ speed = 0.1f;
+ size = 1;
+ alive = true;
+ head_x = (grid_width / 2);
+ head_y = (grid_height / 2);
+ body.clear();
+ direction = Direction::kUp;
+}

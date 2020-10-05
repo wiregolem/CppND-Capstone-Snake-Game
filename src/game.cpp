@@ -24,6 +24,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   gamestate.title = true;
   gamestate.gameover = false;
   gamestate.paused = false;
+  gamestate.reset = false;
 
   renderer.Render(snake, food);
 
@@ -62,6 +63,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     while(gamestate.gameover){
       controller.HandleInput(gamestate,snake);
     }
+    //Check for reset
+    if(gamestate.reset) { Reset();}
 
     //Check for paused, load pause_screen, and handle pause_screen input
     if(gamestate.paused) {
@@ -138,3 +141,15 @@ void Game::Update() {
 
 int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
+
+// Reset snake and gamestate, place new food
+void Game::Reset() {
+ snake.Respawn();
+ gamestate.running = true;
+ gamestate.gameover = false;
+ gamestate.paused = false;
+ gamestate.title = false;
+ gamestate.reset = false;
+ score = 0;
+ PlaceFood();
+}

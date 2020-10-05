@@ -12,6 +12,7 @@ public:
   bool title = false;
   bool gameover = false;
   bool paused = false;
+  bool reset = false;
 };
 class Controller;
 
@@ -36,6 +37,7 @@ class Game {
 
   void PlaceFood();
   void Update();
+  void Reset();
 };
 
 #endif
